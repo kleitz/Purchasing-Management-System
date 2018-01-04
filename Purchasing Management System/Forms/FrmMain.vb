@@ -14,13 +14,6 @@
         End If
     End Sub
 
-    Private Sub SettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
-        If Application.OpenForms().OfType(Of FrmSettings).Any <> True Then
-            Dim frmSet As New FrmSettings With {.MdiParent = Me}
-            frmSet.Show()
-        End If
-    End Sub
-
     Private Sub AcceptOrderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AcceptOrderToolStripMenuItem.Click
         If Application.OpenForms().OfType(Of FrmAcceptInventory).Any <> True Then
             Dim frmAccept As New FrmAcceptInventory With {.MdiParent = Me}
@@ -56,5 +49,23 @@
             Dim frmReq As New FrmReqInventory With {.MdiParent = Me}
             frmReq.Show()
         End If
+    End Sub
+
+    Private Sub MainSettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MainSettingsToolStripMenuItem.Click
+        If Application.OpenForms().OfType(Of FrmSettings).Any <> True Then
+            Dim frmSet As New FrmSettings With {.MdiParent = Me}
+            frmSet.Show()
+        End If
+    End Sub
+
+    Private Sub DepartmentsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DepartmentsToolStripMenuItem.Click
+        If Application.OpenForms().OfType(Of FrmDepartments).Any <> True Then
+            Dim frmDept As New FrmDepartments With {.MdiParent = Me}
+            frmDept.Show()
+        End If
+    End Sub
+
+    Private Sub VendorsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VendorsToolStripMenuItem.Click
+        MsgBox("Coming Soon!")
     End Sub
 End Class

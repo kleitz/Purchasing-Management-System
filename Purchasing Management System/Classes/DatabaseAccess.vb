@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.IO
 Public Class DatabaseAccess
     Private Conn As OleDb.OleDbConnection
     Private Table As DataTable
@@ -56,43 +57,31 @@ Public Class DatabaseAccess
 
     Private Sub Submit(command As OleDbCommand, returnType As ReturnType)
         Try
-            Try
-                Using conn As New OleDbConnection(connectionString:="Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" & My.Settings.DatabaseLocation & "; Persist Security Info = false;")
-                    conn.Open()
-                    With command
-                        .Connection = conn
-                        If returnType = ReturnType.ExecuteNonQuery Then
-                            .ExecuteNonQuery()
-                        ElseIf returnType = ReturnType.ExecuteReader Then
-                            Dim reader As OleDb.OleDbDataReader = .ExecuteReader
-                            Table = New DataTable
-                            Table.Load(reader)
-                        End If
-                        .Dispose()
-                    End With
-                    conn.Close()
-                    conn.Dispose()
-                End Using
-            Catch
-                Using conn As New OleDbConnection(connectionString:="Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" & My.Settings.DatabaseLocation & "; Persist Security Info = false;")
-                    conn.Open()
-                    With command
-                        .Connection = conn
-                        If returnType = ReturnType.ExecuteNonQuery Then
-                            .ExecuteNonQuery()
-                        ElseIf returnType = ReturnType.ExecuteReader Then
-                            Dim reader As OleDb.OleDbDataReader = .ExecuteReader
-                            Table = New DataTable
-                            Table.Load(reader)
-                        End If
-                        .Dispose()
-                    End With
-                    conn.Close()
-                    conn.Dispose()
-                End Using
-            End Try
-        Catch
-            MsgBox("Could not execute request." & Err.Number & ": " & Err.Description)
+            Using conn As New OleDbConnection(connectionString:="Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" & My.Settings.DatabaseLocation & "; Persist Security Info = false;")
+                conn.Open()
+                With command
+                    .Connection = conn
+                    If returnType = ReturnType.ExecuteNonQuery Then
+                        .ExecuteNonQuery()
+                    ElseIf returnType = ReturnType.ExecuteReader Then
+                        Dim reader As OleDb.OleDbDataReader = .ExecuteReader
+                        Table = New DataTable
+                        Table.Load(reader)
+                    End If
+                    .Dispose()
+                End With
+                conn.Close()
+                conn.Dispose()
+            End Using
+        Catch ex As Exception
+            Dim handler As New ErrorHandler
+            With handler
+                .ErrorNumber = Err.Number
+                .ErrorDescription = Err.Description
+                .ExceptionMessage = ex.ToString
+                .Timestamp = Now()
+                .LogError()
+            End With
         End Try
     End Sub
 End Class

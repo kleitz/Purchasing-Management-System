@@ -94,7 +94,7 @@ Partial Class FrmSettings
 
     End Sub
 
-    Friend WithEvents cmdDatabaseLocation As Button
+    Friend WithEvents cmdDatabaseLocation As System.Windows.Forms.Button
     Friend WithEvents lblDatabaseLoc As Label
     Friend WithEvents cmdTaxRate As Button
     Friend WithEvents TextBox1 As TextBox

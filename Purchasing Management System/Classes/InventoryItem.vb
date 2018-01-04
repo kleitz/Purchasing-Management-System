@@ -1,9 +1,9 @@
-﻿Imports Purchasing_Management_System
-
-Public Class InventoryItem
+﻿Public Class InventoryItem
+    Inherits DatabaseItem
     Private vendName As String
     Private vendID As Integer
     Private vendItemNo As String
+    Private barid As String
     Private AgilisysIN As Double
     Private desc As String
     Private pack As String
@@ -11,38 +11,21 @@ Public Class InventoryItem
     Private cat As String
     Private cost As String
     Private ext As Boolean
-    Private quant As Int32
-    Private ref As References
-
-    Public Sub New()
-        Reference = New References
-        With Reference
-            .BuildItemIndex(Me)
-            .BuildDepartmentIndex()
-        End With
-    End Sub
-
+    Private quant As Integer
     Enum SearchMethod
         VendorID
         Description
         AllItems
     End Enum
 
-    Public Sub RebuildIndex()
-        Reference.BuildItemIndex(Me)
+    Public Sub New()
+        BuildItemsIndex(SearchMethod.AllItems)
     End Sub
 
-    Public Sub UpdateQuantity()
+#Region "Data and Search Functions"
+    Public Sub GetData(SearchMethod As SearchMethod)
         Dim com As New DatabaseAccess
-        With com
-            .InitiateADOCommand("UPDATE tVendorItems SET Quantity=" & Quantity & " WHERE VendorItemNumber=" & AgilisysItemNumber)
-        End With
-    End Sub
-
-    Public Function ReturnAgilisysItems(Search As SearchMethod) As DataTable
-        Dim com As New DatabaseAccess
-        Dim tbl As New DataTable
-        Select Case Search
+        Select Case SearchMethod
             Case SearchMethod.VendorID
                 With com
                     .InitiateADOProcedure("qrySearchItemsByVendorID")
@@ -59,9 +42,46 @@ Public Class InventoryItem
                 End With
         End Select
         com.Execute(DatabaseAccess.ReturnType.ExecuteReader)
-        tbl = com.ReturnResults
-        Return tbl
+        Data = com.ReturnResults
+    End Sub
+
+    Public Sub BuildItemsIndex(SearchBy As SearchMethod)
+        GetData(SearchBy)
+        BuildIndex(3)
+    End Sub
+
+    Public Function SearchItems(myKey As String) As Boolean
+        Dim rw As DataRow = SearchIndex(myKey)
+        If rw IsNot Nothing Then
+            With Me
+                .VendorItemNumber = CType(rw.Item(3), String)
+                .AgilisysItemNumber = CDbl(rw.Item(4))
+                .Description = CType(rw.Item(5), String)
+                .Price = CType(rw.Item(9), String)
+                .VendorName = CType(rw.Item(1), String)
+                .Packaging = CType(rw.Item(6), String)
+                .UnitMeasure = CType(rw.Item(7), String)
+                .Quantity = CType(rw.Item(8), Integer)
+                If IsDBNull(rw.Item(2)) = False Then
+                    .BarcodeID = CType(rw.Item(2), String)
+                Else
+                    .BarcodeID = ""
+                End If
+            End With
+            Return True
+        Else
+            Return False
+        End If
     End Function
+#End Region
+
+#Region "Database Functions"
+    Public Sub UpdateQuantity()
+        Dim com As New DatabaseAccess
+        With com
+            .InitiateADOCommand("UPDATE tVendorItems SET Quantity=" & Quantity & " WHERE VendorItemNumber=" & AgilisysItemNumber)
+        End With
+    End Sub
 
     Public Sub SubmitAgilisysItem()
         Dim com As New DatabaseAccess
@@ -69,6 +89,7 @@ Public Class InventoryItem
             .InitiateADOProcedure("spInsertVendorItem")
             .AddParameter("varVendor", VendorName)
             .AddParameter("varVendorItemNumber", VendorItemNumber)
+            .AddParameter("varBarcode", BarcodeID)
             .AddParameter("varAgilisysItemNo", AgilisysItemNumber)
             .AddParameter("varDesc", Description)
             .AddParameter("varCat", Category)
@@ -83,7 +104,8 @@ Public Class InventoryItem
         Dim com As New DatabaseAccess
         With com
             .InitiateADOProcedure("spUpdateVendorItem")
-            .AddParameter("varVendorItemNumber", VendorItemNumber)
+            .AddParameter("varVendItemNumber", VendorItemNumber)
+            .AddParameter("varBarcode", BarcodeID)
             .AddParameter("varAgilisysItemNo", AgilisysItemNumber)
             .AddParameter("varDesc", Description)
             .AddParameter("varCat", Category)
@@ -102,11 +124,9 @@ Public Class InventoryItem
             .Execute(DatabaseAccess.ReturnType.ExecuteNonQuery)
         End With
     End Sub
+#End Region
 
-    Public Function ItemExists(myKey As String) As Boolean
-        Return Reference.SearchItemIndex(myKey, Me)
-    End Function
-
+#Region "Getters/Setters"
     Public Property VendorItemNumber As String
         Get
             Return vendItemNo
@@ -194,15 +214,6 @@ Public Class InventoryItem
         End Set
     End Property
 
-    Public Property Reference As References
-        Get
-            Return ref
-        End Get
-        Set(value As References)
-            ref = value
-        End Set
-    End Property
-
     Public Property Quantity As Integer
         Get
             Return quant
@@ -211,4 +222,14 @@ Public Class InventoryItem
             quant = value
         End Set
     End Property
+
+    Public Property BarcodeID As String
+        Get
+            Return barid
+        End Get
+        Set(value As String)
+            barid = value
+        End Set
+    End Property
+#End Region
 End Class

@@ -35,6 +35,10 @@ Partial Class FrmMain
         Me.PurchaseOrdersToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.PackagesToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DatabaseItemsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DepartmentsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VendorsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MainSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -119,9 +123,35 @@ Partial Class FrmMain
         '
         'SettingsToolStripMenuItem
         '
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DatabaseItemsToolStripMenuItem, Me.MainSettingsToolStripMenuItem})
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.SettingsToolStripMenuItem.Text = "Settings"
+        '
+        'DatabaseItemsToolStripMenuItem
+        '
+        Me.DatabaseItemsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DepartmentsToolStripMenuItem, Me.VendorsToolStripMenuItem})
+        Me.DatabaseItemsToolStripMenuItem.Name = "DatabaseItemsToolStripMenuItem"
+        Me.DatabaseItemsToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.DatabaseItemsToolStripMenuItem.Text = "Database Items"
+        '
+        'DepartmentsToolStripMenuItem
+        '
+        Me.DepartmentsToolStripMenuItem.Name = "DepartmentsToolStripMenuItem"
+        Me.DepartmentsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DepartmentsToolStripMenuItem.Text = "Departments"
+        '
+        'VendorsToolStripMenuItem
+        '
+        Me.VendorsToolStripMenuItem.Name = "VendorsToolStripMenuItem"
+        Me.VendorsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.VendorsToolStripMenuItem.Text = "Vendors"
+        '
+        'MainSettingsToolStripMenuItem
+        '
+        Me.MainSettingsToolStripMenuItem.Name = "MainSettingsToolStripMenuItem"
+        Me.MainSettingsToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.MainSettingsToolStripMenuItem.Text = "Main Settings"
         '
         'FrmMain
         '
@@ -155,4 +185,8 @@ Partial Class FrmMain
     Friend WithEvents AcceptOrderToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EnterRequisitionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SearchUpdateItemsToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents DatabaseItemsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DepartmentsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents VendorsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MainSettingsToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -169,7 +169,7 @@ Partial Class FrmPOs
 
     End Sub
 
-    Friend WithEvents lblDate As Label
+    Friend WithEvents lblDate As System.Windows.Forms.Label
     Friend WithEvents txtDate As TextBox
     Friend WithEvents txtPONum As TextBox
     Friend WithEvents lblPONo As Label

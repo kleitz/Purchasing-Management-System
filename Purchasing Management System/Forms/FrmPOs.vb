@@ -8,7 +8,7 @@
             Dim po As New PurchaseOrder
             Try
                 With po
-                    .SetPurchaseOrderDetails(Me.txtPONum.Text, Me.txtVendor.Text, Me.txtMgr.Text, Me.txtDate.Text)
+                    .SetPurchaseOrderDetails(Me.txtPONum.Text, Me.txtVendor.Text, Me.txtMgr.Text, CType(Me.txtDate.Text, Date))
                     If .Exists = False Then
                         .SubmitPurchaseOrder()
                     End If
@@ -26,7 +26,7 @@
     Private Sub CmdDeletePO_Click(sender As Object, e As EventArgs) Handles cmdDeletePO.Click
         Dim po As New PurchaseOrder
         With po
-            .SetPurchaseOrderDetails(Me.txtPONum.Text, Me.txtVendor.Text, Me.txtMgr.Text, Me.txtDate.Text)
+            .SetPurchaseOrderDetails(Me.txtPONum.Text, Me.txtVendor.Text, Me.txtMgr.Text, CType(Me.txtDate.Text, Date))
             .ErasePurchaseOrder()
         End With
     End Sub
@@ -36,7 +36,7 @@
     End Sub
 
     Private Sub DgvPOItems_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvPO.CellClick
-        Dim xRow = Me.dgvPO.CurrentRow
+        Dim xRow As DataGridViewRow = Me.dgvPO.CurrentRow
         Me.txtDate.Text = xRow.Cells(1).Value
         Me.txtPONum.Text = xRow.Cells(0).Value
         Me.txtMgr.Text = xRow.Cells(2).Value

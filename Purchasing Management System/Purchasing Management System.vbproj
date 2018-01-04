@@ -38,7 +38,8 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>Purchasing Management System.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>
+    </NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -49,11 +50,12 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>Purchasing Management System.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>
+    </NoWarn>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <OptionExplicit>On</OptionExplicit>
+    <OptionExplicit>Off</OptionExplicit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionCompare>Binary</OptionCompare>
@@ -62,7 +64,7 @@
     <OptionStrict>Off</OptionStrict>
   </PropertyGroup>
   <PropertyGroup>
-    <OptionInfer>On</OptionInfer>
+    <OptionInfer>Off</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>EAAF93F75E0C3EC9FFB97284CCBE48BDC0DC14F7</ManifestCertificateThumbprint>
@@ -89,6 +91,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'x86|x86'">
     <OutputPath>bin\x86\x86\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -117,16 +120,25 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DatabaseItem.vb" />
     <Compile Include="Classes\Department.vb" />
-    <Compile Include="Classes\References.vb" />
+    <Compile Include="Classes\ErrorHandler.vb" />
     <Compile Include="Classes\InventoryItem.vb" />
     <Compile Include="Classes\Package.vb" />
     <Compile Include="Classes\PurchaseOrder.vb" />
     <Compile Include="Classes\DatabaseAccess.vb" />
+    <Compile Include="Classes\PurchaseOrderItem.vb" />
+    <Compile Include="Classes\Vendors.vb" />
     <Compile Include="Forms\FrmAcceptInventory.Designer.vb">
       <DependentUpon>FrmAcceptInventory.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmAcceptInventory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDepartments.Designer.vb">
+      <DependentUpon>FrmDepartments.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmDepartments.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FrmReports.Designer.vb">
@@ -204,6 +216,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\FrmAcceptInventory.resx">
       <DependentUpon>FrmAcceptInventory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDepartments.resx">
+      <DependentUpon>FrmDepartments.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmReports.resx">
       <DependentUpon>FrmReports.vb</DependentUpon>

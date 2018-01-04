@@ -5,7 +5,7 @@ Public Class FrmAcceptInventory
     Dim xrow As New DataGridViewRow
     Private Sub TxtScanner_TextChanged(sender As Object, e As EventArgs) Handles txtScanner.TextChanged
         With Inventory
-            .ItemExists(Me.txtScanner.Text)
+            .SearchItems(Me.txtScanner.Text)
             If .Exists = True Then
                 txtScanner.Text = ""
                 Dim row As Int32

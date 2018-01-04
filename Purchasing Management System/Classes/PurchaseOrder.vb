@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.Office.Interop
 
 Public Class PurchaseOrder
+    Inherits DatabaseItem
     Private poExist As Boolean
     Private poiExist As Boolean
     Private poNum As String
@@ -12,6 +13,26 @@ Public Class PurchaseOrder
     Private price As Double
     Private lnID As Integer
 
+    Public Sub New()
+
+    End Sub
+
+    Public Sub GetData()
+        Dim com As New DatabaseAccess
+        With com
+            .InitiateADOProcedure("qryPurchaseOrders")
+            .Execute(DatabaseAccess.ReturnType.ExecuteReader)
+            Data = .ReturnResults
+        End With
+        Me.BuildIndex(0)
+    End Sub
+
+    Public Function SearchPOs(myKey As String) As Boolean
+        Dim rw As DataRow = SearchIndex(myKey)
+        Return False 'placeholder
+    End Function
+
+#Region "Getters/Setters"
     Public Property Exists As Boolean
         Get
             Return poExist
@@ -48,6 +69,27 @@ Public Class PurchaseOrder
         End Set
     End Property
 
+    Public Sub SetPurchaseOrderLineDetails(pGLCode As String, pDescription As String, pPrice As Double)
+        glCode = pGLCode
+        desc = pDescription
+        price = pPrice
+    End Sub
+
+    Public Sub SetPurchaseOrderDetails(PONumber As String, Vendor As String, Manager As String, SubmissionDate As Date)
+        Dim ex As New Exception
+        If PONumber.Length = 0 Or Vendor.Length = 0 Or Manager.Length = 0 Then
+            Throw ex
+        Else
+            poNum = PONumber
+            vend = Vendor
+            mgr = Manager
+            poDate = SubmissionDate
+            POExists()
+        End If
+    End Sub
+#End Region
+
+#Region "Database Functions"
     Public Function GetPOData() As DataTable
         Dim com As New DatabaseAccess
         Dim table As New DataTable
@@ -72,20 +114,6 @@ Public Class PurchaseOrder
         Return table
         table.Dispose()
     End Function
-
-
-    Public Sub SetPurchaseOrderDetails(PONumber As String, Vendor As String, Manager As String, SubmissionDate As Date)
-        Dim ex As New Exception
-        If PONumber.Length = 0 Or Vendor.Length = 0 Or Manager.Length = 0 Then
-            Throw ex
-        Else
-            poNum = PONumber
-            vend = Vendor
-            mgr = Manager
-            poDate = SubmissionDate
-            POExists()
-        End If
-    End Sub
 
     Public Sub SubmitPurchaseOrder()
         Dim com As New DatabaseAccess
@@ -143,12 +171,6 @@ Public Class PurchaseOrder
         End If
     End Sub
 
-    Public Sub SetPurchaseOrderLineDetails(pGLCode As String, pDescription As String, pPrice As Double)
-        glCode = pGLCode
-        desc = pDescription
-        price = pPrice
-    End Sub
-
     Public Sub ErasePurchaseOrder()
         For i = 0 To 1
             Dim com As New DatabaseAccess
@@ -183,14 +205,14 @@ Public Class PurchaseOrder
             ItemExists = .CheckIfExists
         End With
     End Sub
+#End Region
 
+#Region "Reporting Functions"
     Public Sub GeneratePurchaseOrderReport(pMonth As Integer, pYear As Integer)
         Try
-            Dim xlApp As New Excel.Application
-            Dim xlWb As New Excel.Workbook
-            xlWb = xlApp.Workbooks.Add
-            Dim xlWs As New Excel.Worksheet
-            xlWs = CType(xlWb.Worksheets.Add, Excel.Worksheet)
+            Dim xlapp As New Excel.Application
+            Dim xlwb As Excel.Workbook = xlapp.Workbooks.Add
+            Dim xlws As Excel.Worksheet = xlwb.Worksheets.Add
             Dim com As New DatabaseAccess
             Dim tbl As New DataTable
             Dim i As Integer
@@ -202,24 +224,20 @@ Public Class PurchaseOrder
                 tbl = .ReturnResults()
             End With
             i = 3
-            With xlWs
-                For Each row As DataRow In tbl.Rows
-                    .Cells(i, 1) = row(0).ToString
-                    .Cells(i, 2) = row(1).ToString
-                    .Cells(i, 3) = row(2).ToString
-                    .Cells(i, 4) = row(3).ToString
-                    .Cells(i, 5) = row(4).ToString
-                    .Cells(i, 6) = row(5).ToString
-                    .Cells(i, 7) = row(6).ToString
+            With xlws
+                For x = 1 To tbl.Rows.Count - 1
+                    For y = 0 To tbl.Columns.Count - 1
+                        .Cells(i, y + 1) = tbl.Rows(x).Item(y)
+                    Next
                     i += 1
                 Next
             End With
-            xlApp.Visible = True
-            xlWs.Range("A1:G300").EntireColumn.AutoFit()
-            xlWs.Cells(1, 1) = "Purchase Orders Month: " & pMonth & " Year: " & pYear
+            xlapp.Visible = True
+            xlws.Range("A1:G300").EntireColumn.AutoFit()
+            xlws.Cells(1, 1) = "Purchase Orders Month: " & pMonth & " Year: " & pYear
         Catch
             MsgBox("Error: " & Err.Number & ", " & Err.Description)
         End Try
     End Sub
-
+#End Region
 End Class

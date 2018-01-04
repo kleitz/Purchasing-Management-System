@@ -43,6 +43,10 @@ Partial Class FrmSearchItems
         Me.lblCat = New System.Windows.Forms.Label()
         Me.comboUM = New System.Windows.Forms.ComboBox()
         Me.lblum = New System.Windows.Forms.Label()
+        Me.txtBarcode = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblQnty = New System.Windows.Forms.Label()
+        Me.txtQnty = New System.Windows.Forms.TextBox()
         CType(Me.dgvItems, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -52,12 +56,12 @@ Partial Class FrmSearchItems
         Me.dgvItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvItems.Location = New System.Drawing.Point(12, 139)
         Me.dgvItems.Name = "dgvItems"
-        Me.dgvItems.Size = New System.Drawing.Size(1025, 285)
+        Me.dgvItems.Size = New System.Drawing.Size(1195, 285)
         Me.dgvItems.TabIndex = 0
         '
         'cmdSearch
         '
-        Me.cmdSearch.Location = New System.Drawing.Point(962, 5)
+        Me.cmdSearch.Location = New System.Drawing.Point(1132, 9)
         Me.cmdSearch.Name = "cmdSearch"
         Me.cmdSearch.Size = New System.Drawing.Size(75, 23)
         Me.cmdSearch.TabIndex = 1
@@ -66,7 +70,7 @@ Partial Class FrmSearchItems
         '
         'cmdClear
         '
-        Me.cmdClear.Location = New System.Drawing.Point(962, 39)
+        Me.cmdClear.Location = New System.Drawing.Point(1132, 43)
         Me.cmdClear.Name = "cmdClear"
         Me.cmdClear.Size = New System.Drawing.Size(75, 23)
         Me.cmdClear.TabIndex = 2
@@ -75,7 +79,7 @@ Partial Class FrmSearchItems
         '
         'cmdSave
         '
-        Me.cmdSave.Location = New System.Drawing.Point(962, 71)
+        Me.cmdSave.Location = New System.Drawing.Point(1132, 75)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(75, 23)
         Me.cmdSave.TabIndex = 3
@@ -84,7 +88,7 @@ Partial Class FrmSearchItems
         '
         'cmdClose
         '
-        Me.cmdClose.Location = New System.Drawing.Point(962, 106)
+        Me.cmdClose.Location = New System.Drawing.Point(1132, 110)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(75, 23)
         Me.cmdClose.TabIndex = 4
@@ -192,7 +196,7 @@ Partial Class FrmSearchItems
         'comboCat
         '
         Me.comboCat.FormattingEnabled = True
-        Me.comboCat.Location = New System.Drawing.Point(425, 38)
+        Me.comboCat.Location = New System.Drawing.Point(425, 34)
         Me.comboCat.Name = "comboCat"
         Me.comboCat.Size = New System.Drawing.Size(246, 21)
         Me.comboCat.TabIndex = 18
@@ -209,7 +213,7 @@ Partial Class FrmSearchItems
         'comboUM
         '
         Me.comboUM.FormattingEnabled = True
-        Me.comboUM.Location = New System.Drawing.Point(425, 66)
+        Me.comboUM.Location = New System.Drawing.Point(425, 61)
         Me.comboUM.Name = "comboUM"
         Me.comboUM.Size = New System.Drawing.Size(246, 21)
         Me.comboUM.TabIndex = 20
@@ -223,11 +227,48 @@ Partial Class FrmSearchItems
         Me.lblum.TabIndex = 19
         Me.lblum.Text = "U/M:"
         '
+        'txtBarcode
+        '
+        Me.txtBarcode.Location = New System.Drawing.Point(776, 64)
+        Me.txtBarcode.Name = "txtBarcode"
+        Me.txtBarcode.Size = New System.Drawing.Size(246, 20)
+        Me.txtBarcode.TabIndex = 22
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(875, 48)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(75, 13)
+        Me.Label1.TabIndex = 21
+        Me.Label1.Text = "Scan Barcode"
+        '
+        'lblQnty
+        '
+        Me.lblQnty.AutoSize = True
+        Me.lblQnty.Location = New System.Drawing.Point(367, 90)
+        Me.lblQnty.Name = "lblQnty"
+        Me.lblQnty.Size = New System.Drawing.Size(52, 13)
+        Me.lblQnty.TabIndex = 23
+        Me.lblQnty.Text = "Quantity: "
+        Me.lblQnty.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'txtQnty
+        '
+        Me.txtQnty.Location = New System.Drawing.Point(425, 88)
+        Me.txtQnty.Name = "txtQnty"
+        Me.txtQnty.Size = New System.Drawing.Size(246, 20)
+        Me.txtQnty.TabIndex = 24
+        '
         'FrmSearchItems
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1049, 436)
+        Me.ClientSize = New System.Drawing.Size(1219, 436)
+        Me.Controls.Add(Me.txtQnty)
+        Me.Controls.Add(Me.lblQnty)
+        Me.Controls.Add(Me.txtBarcode)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.comboUM)
         Me.Controls.Add(Me.lblum)
         Me.Controls.Add(Me.comboCat)
@@ -258,10 +299,10 @@ Partial Class FrmSearchItems
     End Sub
 
     Friend WithEvents dgvItems As DataGridView
-    Friend WithEvents cmdSearch As Button
-    Friend WithEvents cmdClear As Button
-    Friend WithEvents cmdSave As Button
-    Friend WithEvents cmdClose As Button
+    Friend WithEvents cmdSearch As System.Windows.Forms.Button
+    Friend WithEvents cmdClear As System.Windows.Forms.Button
+    Friend WithEvents cmdSave As System.Windows.Forms.Button
+    Friend WithEvents cmdClose As System.Windows.Forms.Button
     Friend WithEvents lblVendorItemNo As Label
     Friend WithEvents txtVendIN As TextBox
     Friend WithEvents txtSWSIN As TextBox
@@ -278,4 +319,8 @@ Partial Class FrmSearchItems
     Friend WithEvents lblCat As Label
     Friend WithEvents comboUM As ComboBox
     Friend WithEvents lblum As Label
+    Friend WithEvents txtBarcode As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents lblQnty As Label
+    Friend WithEvents txtQnty As TextBox
 End Class

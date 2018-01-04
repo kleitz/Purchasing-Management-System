@@ -1,10 +1,12 @@
 ﻿Imports Microsoft.Office.Interop
 Public Class FrmReqInventory
     Private Items As InventoryItem
+    Private Depts As FrmDepartments
+
     Private Sub FrmReqInventory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Items = New InventoryItem
         With Items
-            For Each row As DataRow In .Reference.tDept.Rows
+            For Each row As DataRow In Items.Data.Rows
                 With Me.comboDept.Items
                     .Add(row(0).ToString)
                 End With
@@ -15,16 +17,16 @@ Public Class FrmReqInventory
     Private Sub TxtScanner_TextChanged(sender As Object, e As EventArgs) Handles txtScanner.TextChanged
         Dim f As Double
         With Items
-            .ItemExists(Me.txtScanner.Text)
+            .SearchItems(Me.txtScanner.Text)
             If .Exists = True Then
                 txtScanner.Text = ""
                 Dim row As Int32
                 If dgvRequisition.Rows.Count > 0 Then
-                    For i = 0 To dgvRequisition.Rows.Count - 1
-                        If dgvRequisition.Rows(i).Cells(0).Value = .VendorItemNumber Then
-                            dgvRequisition.Rows(i).Cells(3).Value = dgvRequisition.Rows(i).Cells(3).Value + 1
-                            dgvRequisition.Rows(i).Cells(4).Value = .Quantity - dgvRequisition.Rows(i).Cells(3).Value
-                            dgvRequisition.Rows(i).Cells(5).Value = dgvRequisition.Rows(i).Cells(3).Value * CDbl(.Price)
+                    For i As Integer = 0 To dgvRequisition.Rows.Count - 1
+                        If CType(dgvRequisition.Rows(i).Cells(0).Value, String) = .VendorItemNumber Then
+                            dgvRequisition.Rows(i).Cells(3).Value = CType(dgvRequisition.Rows(i).Cells(3).Value, Integer) + 1
+                            dgvRequisition.Rows(i).Cells(4).Value = .Quantity - CType(dgvRequisition.Rows(i).Cells(3).Value, Integer)
+                            dgvRequisition.Rows(i).Cells(5).Value = CType(dgvRequisition.Rows(i).Cells(3).Value, Integer) * CDbl(.Price)
                             dgvRequisition.AutoSizeColumnsMode() = DataGridViewAutoSizeColumnMode.AllCells
                             Exit Sub
                         End If
@@ -36,7 +38,7 @@ Public Class FrmReqInventory
                 dgvRequisition.Rows(row).Cells(2).Value = .Description
                 dgvRequisition.Rows(row).Cells(3).Value = 1
                 dgvRequisition.Rows(row).Cells(4).Value = .Quantity
-                dgvRequisition.Rows(row).Cells(5).Value = dgvRequisition.Rows(row).Cells(3).Value * .Price
+                dgvRequisition.Rows(row).Cells(5).Value = CType(dgvRequisition.Rows(row).Cells(3).Value, Integer) * .Price
                 dgvRequisition.AutoSizeColumnsMode() = DataGridViewAutoSizeColumnMode.AllCells
             End If
         End With
@@ -62,8 +64,8 @@ Public Class FrmReqInventory
         Dim xlWs As Excel.Worksheet = xlWb.Worksheets(1)
         Dim i As Integer = 0
         Dim total As Double = 0
-        Items.Reference.BuildDepartmentIndex()
-        Items.Reference.SearchDept(Me.comboDept.Text, dept)
+        dept.GetData()
+        dept.SearchDepartments(Me.comboDept.Text)
         'If rw Is Nothing Then
         'MsgBox("Please select a valid department then try again.")
         'Else

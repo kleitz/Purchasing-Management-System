@@ -28,7 +28,14 @@ Partial Class FrmReports
         Me.txtMonth = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cmdPOReport = New System.Windows.Forms.Button()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.txtSumYear = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtSumMonth = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.cmdSum = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -38,12 +45,12 @@ Partial Class FrmReports
         Me.GroupBox1.Controls.Add(Me.txtMonth)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.cmdPOReport)
-        Me.GroupBox1.Location = New System.Drawing.Point(18, 16)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(702, 69)
+        Me.GroupBox1.Size = New System.Drawing.Size(702, 83)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Purchase Orders"
+        Me.GroupBox1.Text = "Detailed By Month/Year"
         '
         'txtYear
         '
@@ -86,24 +93,88 @@ Partial Class FrmReports
         Me.cmdPOReport.Text = "Generate Report"
         Me.cmdPOReport.UseVisualStyleBackColor = True
         '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.txtSumYear)
+        Me.GroupBox2.Controls.Add(Me.Label3)
+        Me.GroupBox2.Controls.Add(Me.txtSumMonth)
+        Me.GroupBox2.Controls.Add(Me.Label4)
+        Me.GroupBox2.Controls.Add(Me.cmdSum)
+        Me.GroupBox2.Location = New System.Drawing.Point(12, 101)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(702, 83)
+        Me.GroupBox2.TabIndex = 1
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Summary by Month/Year"
+        '
+        'txtSumYear
+        '
+        Me.txtSumYear.Location = New System.Drawing.Point(234, 29)
+        Me.txtSumYear.Name = "txtSumYear"
+        Me.txtSumYear.Size = New System.Drawing.Size(100, 20)
+        Me.txtSumYear.TabIndex = 4
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(189, 32)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(32, 13)
+        Me.Label3.TabIndex = 3
+        Me.Label3.Text = "Year:"
+        '
+        'txtSumMonth
+        '
+        Me.txtSumMonth.Location = New System.Drawing.Point(77, 29)
+        Me.txtSumMonth.Name = "txtSumMonth"
+        Me.txtSumMonth.Size = New System.Drawing.Size(100, 20)
+        Me.txtSumMonth.TabIndex = 2
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(32, 32)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(40, 13)
+        Me.Label4.TabIndex = 1
+        Me.Label4.Text = "Month:"
+        '
+        'cmdSum
+        '
+        Me.cmdSum.Location = New System.Drawing.Point(549, 27)
+        Me.cmdSum.Name = "cmdSum"
+        Me.cmdSum.Size = New System.Drawing.Size(123, 23)
+        Me.cmdSum.TabIndex = 0
+        Me.cmdSum.Text = "Generate Report"
+        Me.cmdSum.UseVisualStyleBackColor = True
+        '
         'FrmReports
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(736, 354)
+        Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FrmReports"
         Me.Text = "Reports"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
 
-    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents txtYear As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents txtMonth As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents cmdPOReport As Button
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents txtSumYear As TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents txtSumMonth As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents cmdSum As Button
 End Class

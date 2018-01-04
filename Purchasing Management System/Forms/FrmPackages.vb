@@ -29,11 +29,11 @@ Public Class FrmPackages
     End Sub
 
 
-    Private Sub FillPackageData(pDate)
+    Private Sub FillPackageData(pDate As Date)
         Dim pkg As New Package
         Dim table As New System.Data.DataTable
         With pkg
-            pkg.PackageDate = pDate
+            .PackageDate = pDate
             table = .GetPackageData
         End With
         With dgvShippingLog
@@ -44,19 +44,19 @@ Public Class FrmPackages
     End Sub
 
     Private Sub DgvShippingLog_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvShippingLog.CellClick
-        Dim xRow = Me.dgvShippingLog.CurrentRow
-        Me.comboCourier.Text = xRow.Cells(0).Value
-        Me.comboType.Text = xRow.Cells(4).Value
-        Me.comboGorE.Text = xRow.Cells(1).Value
-        Me.txtReciever.Text = xRow.Cells(2).Value
-        Me.txtSender.Text = xRow.Cells(3).Value
-        Me.txtTracking.Text = xRow.Cells(5).Value
+        Dim xRow As DataGridViewRow = Me.dgvShippingLog.CurrentRow
+        Me.comboCourier.Text = CType(xRow.Cells(0).Value, String)
+        Me.comboType.Text = CType(xRow.Cells(4).Value, String)
+        Me.comboGorE.Text = CType(xRow.Cells(1).Value, String)
+        Me.txtReciever.Text = CType(xRow.Cells(2).Value, String)
+        Me.txtSender.Text = CType(xRow.Cells(3).Value, String)
+        Me.txtTracking.Text = CType(xRow.Cells(5).Value, String)
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
         Dim pkg As New Package
         With pkg
-            .PackageDate = Me.txtDate.Text
+            .PackageDate = CType(Me.txtDate.Text, Date)
             .Courier = Me.comboCourier.Text
             .Shipper = Me.txtSender.Text
             .Recipient = Me.txtReciever.Text
@@ -75,7 +75,7 @@ Public Class FrmPackages
     Private Sub CmdUpdate_Click(sender As Object, e As EventArgs) Handles cmdUpdate.Click
         Dim pkg As New Package
         With pkg
-            .PackageDate = txtDate.Text
+            .PackageDate = CType(txtDate.Text, Date)
             .Courier = comboCourier.Text
             .Shipper = txtSender.Text
             .Recipient = txtReciever.Text
@@ -90,7 +90,7 @@ Public Class FrmPackages
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
         Dim pkg As New Package
         With pkg
-            .PackageDate = Me.txtDate.Text
+            .PackageDate = CType(Me.txtDate.Text, Date)
             .TrackingNumber = Me.txtTracking.Text
             .DeleteTrackingEntry()
         End With
@@ -106,7 +106,7 @@ Public Class FrmPackages
             Try
                 Dim pkg As New Package
                 With pkg
-                    .PackageDate = Me.txtDate.Text
+                    .PackageDate = CType(Me.txtDate.Text, Date)
                 End With
                 FillPackageData(pkg.PackageDate)
             Catch
@@ -139,15 +139,15 @@ Public Class FrmPackages
         xlApp.Visible = True
     End Sub
 
-    Private Sub pbUPS_Click(sender As Object, e As EventArgs) Handles pbUPS.Click
+    Private Sub PbUPS_Click(sender As Object, e As EventArgs) Handles pbUPS.Click
         Process.Start("https://www.ups.com/WebTracking/track?loc=en_US")
     End Sub
 
-    Private Sub pbFEDEX_Click(sender As Object, e As EventArgs) Handles pbFEDEX.Click
+    Private Sub PbFEDEX_Click(sender As Object, e As EventArgs) Handles pbFEDEX.Click
         Process.Start("https://www.fedex.com/en-us/home.html")
     End Sub
 
-    Private Sub pbUSPS_Click(sender As Object, e As EventArgs) Handles pbUSPS.Click
+    Private Sub PbUSPS_Click(sender As Object, e As EventArgs) Handles pbUSPS.Click
         Process.Start("https://tools.usps.com/go/TrackConfirmAction!input.action")
     End Sub
 End Class

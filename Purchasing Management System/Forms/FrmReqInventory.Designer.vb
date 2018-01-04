@@ -198,9 +198,9 @@ Partial Class FrmReqInventory
 
     End Sub
 
-    Friend WithEvents Label1 As Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents comboDept As ComboBox
-    Friend WithEvents Label2 As Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents txtScanner As TextBox
     Friend WithEvents cmdDelete As Button
     Friend WithEvents cmdSave As Button

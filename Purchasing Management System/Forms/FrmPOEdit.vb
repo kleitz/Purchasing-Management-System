@@ -53,12 +53,12 @@
     End Sub
 
     Private Sub DgvPOItems_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvPOItems.CellClick
-        Dim xRow = Me.dgvPOItems.CurrentRow
-        Purchase.LineID = xRow.Cells(0).Value
+        Dim xRow As DataGridViewRow = Me.dgvPOItems.CurrentRow
+        Purchase.LineID = CType(xRow.Cells(0).Value, Integer)
         Me.lblID.Text = "ID: " & Purchase.LineID
-        Me.txtGLCode.Text = xRow.Cells(3).Value
-        Me.txtItemDesc.Text = xRow.Cells(2).Value
-        Me.txtPrice.Text = xRow.Cells(4).Value
+        Me.txtGLCode.Text = CType(xRow.Cells(3).Value, String)
+        Me.txtItemDesc.Text = CType(xRow.Cells(2).Value, String)
+        Me.txtPrice.Text = CType(xRow.Cells(4).Value, Double)
     End Sub
 
     Private Sub CmdUpdate_Click(sender As Object, e As EventArgs) Handles cmdUpdate.Click
@@ -81,5 +81,6 @@
             DisplayPODetails()
         End With
     End Sub
+
 End Class
 

@@ -335,7 +335,7 @@ Partial Class FrmPackages
 
     End Sub
 
-    Friend WithEvents lblDate As Label
+    Friend WithEvents lblDate As System.Windows.Forms.Label
     Friend WithEvents txtDate As TextBox
     Friend WithEvents txtReciever As TextBox
     Friend WithEvents lblRecieve As Label

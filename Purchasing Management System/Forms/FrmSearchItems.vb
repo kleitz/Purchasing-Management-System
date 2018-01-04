@@ -1,12 +1,14 @@
 ﻿Public Class FrmSearchItems
-    Dim item As New InventoryItem
+    Dim item As InventoryItem
+    Dim vend As Vendors
     Private Sub FrmSearchItems_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        With Me.comboVendor.Items
-            .Add("Southeastern Paper Group")
-            .Add("Perimeter Office Products")
-            .Add("Sewell")
-            .Add("Six Degrees North")
-        End With
+        vend = New Vendors
+        item = New InventoryItem
+        For Each row As DataRow In vend.Data.Rows
+            With Me.comboVendor.Items
+                .Add(row(1).ToString)
+            End With
+        Next
 
         With Me.comboUM.Items
             .Add("Case")
@@ -34,13 +36,10 @@
     End Sub
 
     Private Sub ReturnItems(pSearchMethod As InventoryItem.SearchMethod)
-        Dim tbl As New DataTable
-        With item
-            tbl = .ReturnAgilisysItems(pSearchMethod)
-        End With
+        item.GetData(pSearchMethod)
         With dgvItems
             .AutoGenerateColumns = True
-            .DataSource = tbl
+            .DataSource = item.Data
             .Refresh()
             .AutoResizeColumns()
         End With
@@ -62,34 +61,46 @@
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
         With item
-            '  .VendorItemNumber = Me.txtVendIN.Text
-            '.AgilisysItemNumber = CDbl(Me.txtSWSIN.Text)
-            '.Price = Me.txtPrice.Text
-            '.Category = Me.comboCat.Text
-            '.Packaging = Me.txtPkg.Text
-            .VendorName = Me.comboVendor.Text
-            '.UnitMeasure = Me.comboUM.Text
-            '.Description = Me.txtDesc.Text
-            '.BuildIndex()
-            'If .ItemExists(.VendorItemNumber) = True Then
-            ' .UpdateAgilisysItem()
-            'Else
-            '.SubmitAgilisysItem()
-            'End If
+            .VendorItemNumber = Me.txtVendIN.Text
+            If .SearchItems(.VendorItemNumber) = True Then
+                .BarcodeID = Me.txtBarcode.Text
+                .AgilisysItemNumber = CDbl(Me.txtSWSIN.Text)
+                .Price = Me.txtPrice.Text
+                .Category = Me.comboCat.Text
+                .Packaging = Me.txtPkg.Text
+                .VendorName = Me.comboVendor.Text
+                .UnitMeasure = Me.comboUM.Text
+                .Description = Me.txtDesc.Text
+                .Quantity = Me.txtQnty.Text
+                .UpdateAgilisysItem()
+            Else
+                .AgilisysItemNumber = CDbl(Me.txtSWSIN.Text)
+                .Price = Me.txtPrice.Text
+                .Category = Me.comboCat.Text
+                .Packaging = Me.txtPkg.Text
+                .VendorName = Me.comboVendor.Text
+                .UnitMeasure = Me.comboUM.Text
+                .Description = Me.txtDesc.Text
+                .Quantity = Me.txtQnty.Text
+                .SubmitAgilisysItem()
+            End If
+            Me.ReturnItems(InventoryItem.SearchMethod.VendorID)
         End With
     End Sub
 
 
     Private Sub DgvItems_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvItems.CellClick
         On Error Resume Next
-        Dim xRow = Me.dgvItems.CurrentRow
-        Me.txtVendIN.Text = xRow.Cells(2).Value
-        Me.txtSWSIN.Text = xRow.Cells(3).Value
-        Me.txtPrice.Text = xRow.Cells(7).Value
-        Me.txtPkg.Text = xRow.Cells(5).Value
-        Me.txtDesc.Text = xRow.Cells(4).Value
-        Me.comboVendor.Text = xRow.Cells(1).Value
-        Me.comboUM.Text = xRow.Cells(6).Value
+        Dim xRow As DataGridViewRow = Me.dgvItems.CurrentRow
+        Me.txtVendIN.Text = CType(xRow.Cells(3).Value, String)
+        Me.txtSWSIN.Text = CType(xRow.Cells(4).Value, String)
+        Me.txtPrice.Text = CType(xRow.Cells(9).Value, String)
+        Me.txtPkg.Text = CType(xRow.Cells(6).Value, String)
+        Me.txtDesc.Text = CType(xRow.Cells(5).Value, String)
+        Me.comboVendor.Text = CType(xRow.Cells(1).Value, String)
+        Me.comboUM.Text = CType(xRow.Cells(7).Value, String)
+        Me.txtQnty.Text = CType(xRow.Cells(8).Value, String)
+        Me.txtBarcode.Text = CType(xRow.Cells(2).Value, String)
         On Error GoTo 0
     End Sub
 
@@ -101,5 +112,7 @@
         Me.comboCat.Text = ""
         Me.comboUM.Text = ""
         Me.comboVendor.Text = ""
+        Me.txtQnty.Text = ""
+        ReturnItems(InventoryItem.SearchMethod.AllItems)
     End Sub
 End Class
