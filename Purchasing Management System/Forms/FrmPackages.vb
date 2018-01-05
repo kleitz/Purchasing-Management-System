@@ -118,25 +118,35 @@ Public Class FrmPackages
     Private Sub CmdPrint_Click(sender As Object, e As EventArgs) Handles cmdPrint.Click
         Dim pkg As New Package
         Dim xlApp As New Excel.Application
-        Dim xlWb As Excel.Workbook = xlApp.Workbooks.Open(Application.StartupPath & "\Resources\Employee Shipping Log.xlsx")
-        Dim xlWs As Excel.Worksheet = xlWb.Worksheets(1)
-        Dim i As Integer = 0
-        pkg.RecipientType = "Employee"
-        pkg.PackageDate = DateTime.Today.ToString("d")
-        pkg.GeneratePackageReport()
-        With xlWs
-            .Cells(1, 3) = "Date: " & DateTime.Today.ToString("d") & " " & DateTime.Today.DayOfWeek.ToString()
-            .Cells(3, 1) = pkg.RecipientType & " Recieving Log"
-            For Each row As DataRow In pkg.tbl.Rows
-                .Cells(i + 6, 1) = row(0).ToString
-                .Cells(i + 6, 2) = row(1).ToString
-                .Cells(i + 6, 3) = row(2).ToString
-                .Cells(i + 6, 4) = row(3).ToString
-                .Cells(i + 6, 5) = row(4).ToString
-                i += 1
-            Next
-        End With
-        xlApp.Visible = True
+        Dim pkgtype() As String = {"Employee", "Guest"}
+        For t As Integer = 0 To 1
+            Dim xlWb As Excel.Workbook = xlApp.Workbooks.Open(Application.StartupPath & "\Resources\Employee Shipping Log.xlsx")
+            Dim xlWs As Excel.Worksheet = CType(xlWb.Worksheets(1), Excel.Worksheet)
+            Dim i As Integer = 0
+            pkg.RecipientType = pkgtype(t)
+            pkg.PackageDate = CDate(Me.txtDate.Text)
+            pkg.GeneratePackageReport()
+            With xlWs
+                .Cells(1, 3) = "Date: " & pkg.PackageDate.ToString("d") & " " & pkg.PackageDate.DayOfWeek.ToString()
+                .Cells(3, 1) = pkg.RecipientType & " Recieving Log"
+                For Each row As DataRow In pkg.tbl.Rows
+                    .Cells(i + 6, 1) = row(0).ToString
+                    .Cells(i + 6, 2) = row(1).ToString
+                    .Cells(i + 6, 3) = row(2).ToString
+                    .Cells(i + 6, 4) = row(3).ToString
+                    .Cells(i + 6, 5) = row(4).ToString
+                    i += 1
+                    If i > 18 Then
+                        xlWs = xlWb.Sheets(1).Copy(After:=xlWb.Sheets(xlWb.Sheets.Count))
+                        .Cells(1, 3) = "Date: " & DateTime.Today.ToString("d") & " " & DateTime.Today.DayOfWeek.ToString()
+                        .Cells(3, 1) = pkg.RecipientType & " Recieving Log"
+                        i = 0
+                    End If
+                Next row
+                xlWb.PrintOutEx()
+                xlWb.Close(SaveChanges:=False)
+            End With
+        Next
     End Sub
 
     Private Sub PbUPS_Click(sender As Object, e As EventArgs) Handles pbUPS.Click

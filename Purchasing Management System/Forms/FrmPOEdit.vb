@@ -1,12 +1,12 @@
 ﻿Public Class FrmPOEdit
-    Dim Purchase As New PurchaseOrder
+    Dim PurchaseItem As PurchaseOrderItem
     Private Sub FrmPOEdit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DisplayPODetails()
     End Sub
 
     Public Sub New(ByVal PO As PurchaseOrder)
         InitializeComponent()
-        Purchase = PO
+        PurchaseItem = New PurchaseOrderItem(PO)
         Show()
     End Sub
 
@@ -17,35 +17,30 @@
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        ' Try
-        With Purchase
-                .SetPurchaseOrderLineDetails(Me.txtGLCode.Text, Me.txtItemDesc.Text, Me.txtPrice.Text)
-                .SubmitPurchaseOrderEntry()
-            End With
+        With PurchaseItem
+            .GlCode = Me.txtGLCode.Text
+            .Description = Me.txtItemDesc.Text
+            .Price = CType(Me.txtPrice.Text, Double)
+            .SubmitPurchaseOrderItemEntry()
+        End With
         DisplayPODetails()
         Me.txtItemDesc.Text = ""
         Me.txtPrice.Text = ""
         Me.txtItemDesc.Focus()
-        'Catch
-        'MsgBox("One or more entries was incorrect. Please try again.")
-        'End Try
     End Sub
 
     Private Sub DisplayPODetails()
-        Dim table As New DataTable
         Dim total As Double
-        Me.Text = "PO: " & Purchase.PONumber
-        With Purchase
-            table = .GetPOLineData()
-        End With
+        PurchaseItem.GetData()
+        Me.Text = "PO: " & PurchaseItem.PONumber
         With dgvPOItems
             .AutoGenerateColumns = True
-            .DataSource = table
+            .DataSource = PurchaseItem.Data
             .Refresh()
         End With
-        table.Dispose()
+
         For Each row As DataGridViewRow In dgvPOItems.Rows
-            total += row.Cells(4).Value
+            total += CType(row.Cells(4).Value, Double)
         Next
         Me.lblSubTotal.Text = "Sub Total: " & total
         Me.lblTax.Text = "Tax: " & (total * My.Settings.TaxRate)
@@ -54,32 +49,16 @@
 
     Private Sub DgvPOItems_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvPOItems.CellClick
         Dim xRow As DataGridViewRow = Me.dgvPOItems.CurrentRow
-        Purchase.LineID = CType(xRow.Cells(0).Value, Integer)
-        Me.lblID.Text = "ID: " & Purchase.LineID
+        PurchaseItem.LineID = CType(xRow.Cells(0).Value, Integer)
+        Me.lblID.Text = "ID: " & PurchaseItem.LineID
         Me.txtGLCode.Text = CType(xRow.Cells(3).Value, String)
         Me.txtItemDesc.Text = CType(xRow.Cells(2).Value, String)
-        Me.txtPrice.Text = CType(xRow.Cells(4).Value, Double)
-    End Sub
-
-    Private Sub CmdUpdate_Click(sender As Object, e As EventArgs) Handles cmdUpdate.Click
-        Try
-            With Purchase
-                .SetPurchaseOrderLineDetails(Me.txtGLCode.Text, Me.txtItemDesc.Text, Me.txtPrice.Text)
-                .UpdatePurchaseOrderEntry()
-                Purchase.LineID = -1
-                DisplayPODetails()
-            End With
-        Catch
-            MsgBox("One or more entries was incorrect. Please try your entries again.")
-        End Try
+        Me.txtPrice.Text = CType(xRow.Cells(4).Value, String)
     End Sub
 
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
-        With Purchase
-            .DeletePurchaseOrderEntry()
-            Purchase.LineID = -1
-            DisplayPODetails()
-        End With
+        PurchaseItem.DeletePurchaseOrderItemEntry()
+        PurchaseItem.GetData()
     End Sub
 
 End Class

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FrmReports
+Partial Class FrmPOReports
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -148,14 +148,14 @@ Partial Class FrmReports
         Me.cmdSum.Text = "Generate Report"
         Me.cmdSum.UseVisualStyleBackColor = True
         '
-        'FrmReports
+        'FrmPOReports
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(736, 354)
+        Me.ClientSize = New System.Drawing.Size(736, 202)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Name = "FrmReports"
+        Me.Name = "FrmPOReports"
         Me.Text = "Reports"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()

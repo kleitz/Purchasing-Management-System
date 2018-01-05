@@ -31,7 +31,6 @@ Partial Class FrmPOEdit
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.lblID = New System.Windows.Forms.Label()
         Me.cmdDelete = New System.Windows.Forms.Button()
-        Me.cmdUpdate = New System.Windows.Forms.Button()
         Me.cmdSave = New System.Windows.Forms.Button()
         Me.dgvPOItems = New System.Windows.Forms.DataGridView()
         Me.lblSubTotal = New System.Windows.Forms.Label()
@@ -94,7 +93,6 @@ Partial Class FrmPOEdit
         '
         Me.GroupBox1.Controls.Add(Me.lblID)
         Me.GroupBox1.Controls.Add(Me.cmdDelete)
-        Me.GroupBox1.Controls.Add(Me.cmdUpdate)
         Me.GroupBox1.Controls.Add(Me.cmdSave)
         Me.GroupBox1.Controls.Add(Me.txtGLCode)
         Me.GroupBox1.Controls.Add(Me.txtPrice)
@@ -126,22 +124,13 @@ Partial Class FrmPOEdit
         Me.cmdDelete.Text = "Delete Entry"
         Me.cmdDelete.UseVisualStyleBackColor = True
         '
-        'cmdUpdate
-        '
-        Me.cmdUpdate.Location = New System.Drawing.Point(553, 82)
-        Me.cmdUpdate.Name = "cmdUpdate"
-        Me.cmdUpdate.Size = New System.Drawing.Size(79, 26)
-        Me.cmdUpdate.TabIndex = 7
-        Me.cmdUpdate.Text = "Update Entry"
-        Me.cmdUpdate.UseVisualStyleBackColor = True
-        '
         'cmdSave
         '
         Me.cmdSave.Location = New System.Drawing.Point(468, 82)
         Me.cmdSave.Name = "cmdSave"
-        Me.cmdSave.Size = New System.Drawing.Size(79, 26)
+        Me.cmdSave.Size = New System.Drawing.Size(164, 26)
         Me.cmdSave.TabIndex = 6
-        Me.cmdSave.Text = "Save Entry"
+        Me.cmdSave.Text = "Save Or Update Entry"
         Me.cmdSave.UseVisualStyleBackColor = True
         '
         'dgvPOItems
@@ -221,7 +210,6 @@ Partial Class FrmPOEdit
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents lblID As Label
     Friend WithEvents cmdDelete As Button
-    Friend WithEvents cmdUpdate As Button
     Friend WithEvents cmdSave As Button
     Friend WithEvents dgvPOItems As DataGridView
     Friend WithEvents lblSubTotal As Label

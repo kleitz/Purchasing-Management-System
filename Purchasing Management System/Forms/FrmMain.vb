@@ -34,8 +34,8 @@
     End Sub
 
     Private Sub PurchaseOrdersToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles PurchaseOrdersToolStripMenuItem1.Click
-        If Application.OpenForms().OfType(Of FrmReports).Any <> True Then
-            Dim frmReport As New FrmReports With {.MdiParent = Me}
+        If Application.OpenForms().OfType(Of FrmPOReports).Any <> True Then
+            Dim frmReport As New FrmPOReports With {.MdiParent = Me}
             frmReport.Show()
         End If
     End Sub

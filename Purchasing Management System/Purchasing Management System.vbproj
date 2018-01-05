@@ -128,6 +128,7 @@
     <Compile Include="Classes\PurchaseOrder.vb" />
     <Compile Include="Classes\DatabaseAccess.vb" />
     <Compile Include="Classes\PurchaseOrderItem.vb" />
+    <Compile Include="Classes\ReportsGenerator.vb" />
     <Compile Include="Classes\Vendors.vb" />
     <Compile Include="Forms\FrmAcceptInventory.Designer.vb">
       <DependentUpon>FrmAcceptInventory.vb</DependentUpon>
