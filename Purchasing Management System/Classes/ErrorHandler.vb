@@ -11,9 +11,11 @@ Public Class ErrorHandler
         Dim fs As FileStream = Nothing
         fs = File.Create(filloc)
         fs.Close()
+        fs.Dispose()
+        Me.Timestamp = Now()
     End Sub
 
-    Public Property Timestamp As Date
+    Private Property Timestamp As Date
         Get
             Return dt
         End Get
@@ -50,6 +52,7 @@ Public Class ErrorHandler
     End Property
 
     Public Sub LogError()
+        MsgBox(Me.ErrorNumber & ": " & Me.ErrorDescription & vbCrLf & vbCrLf & Me.ExceptionMessage, MsgBoxStyle.Critical, "Error")
         Using objWriter As New System.IO.StreamWriter(filloc)
             With objWriter
                 .WriteLine()
@@ -62,6 +65,8 @@ Public Class ErrorHandler
                 .WriteLine()
                 .WriteLine()
                 .WriteLine("Exeption Details: " & ExceptionMessage)
+                .Close()
+                .Dispose()
             End With
         End Using
     End Sub

@@ -66,6 +66,9 @@
     End Sub
 
     Private Sub VendorsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VendorsToolStripMenuItem.Click
-        MsgBox("Coming Soon!")
+        If Application.OpenForms().OfType(Of FrmVendors).Any <> True Then
+            Dim frmVend As New FrmVendors With {.MdiParent = Me}
+            frmVend.Show()
+        End If
     End Sub
 End Class
