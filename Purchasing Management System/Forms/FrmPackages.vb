@@ -31,14 +31,13 @@ Public Class FrmPackages
 
     Private Sub FillPackageData(pDate As Date)
         Dim pkg As New Package
-        Dim table As New System.Data.DataTable
         With pkg
             .PackageDate = pDate
-            table = .GetPackageData
+            .GetPackageData()
         End With
         With dgvShippingLog
             .AutoGenerateColumns = True
-            .DataSource = table
+            .DataSource = pkg.Data
             .Refresh()
         End With
     End Sub
@@ -125,11 +124,11 @@ Public Class FrmPackages
             Dim i As Integer = 0
             pkg.RecipientType = pkgtype(t)
             pkg.PackageDate = CDate(Me.txtDate.Text)
-            pkg.GeneratePackageReport()
+            pkg.GenerateDailyPackageReport()
             With xlWs
                 .Cells(1, 3) = "Date: " & pkg.PackageDate.ToString("d") & " " & pkg.PackageDate.DayOfWeek.ToString()
                 .Cells(3, 1) = pkg.RecipientType & " Recieving Log"
-                For Each row As DataRow In pkg.tbl.Rows
+                For Each row As DataRow In pkg.Data.Rows 'pkg.tbl.Rows
                     .Cells(i + 6, 1) = row(0).ToString
                     .Cells(i + 6, 2) = row(1).ToString
                     .Cells(i + 6, 3) = row(2).ToString
@@ -145,6 +144,7 @@ Public Class FrmPackages
                 Next row
                 xlWb.PrintOutEx()
                 xlWb.Close(SaveChanges:=False)
+                Application.DoEvents()
             End With
         Next
     End Sub

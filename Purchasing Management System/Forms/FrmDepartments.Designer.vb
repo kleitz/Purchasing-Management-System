@@ -122,10 +122,11 @@ Partial Class FrmDepartments
         '
         'dgvDepartments
         '
+        Me.dgvDepartments.BackgroundColor = System.Drawing.SystemColors.Window
         Me.dgvDepartments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvDepartments.Location = New System.Drawing.Point(14, 126)
         Me.dgvDepartments.Name = "dgvDepartments"
-        Me.dgvDepartments.Size = New System.Drawing.Size(448, 329)
+        Me.dgvDepartments.Size = New System.Drawing.Size(454, 329)
         Me.dgvDepartments.TabIndex = 10
         '
         'FrmDepartments

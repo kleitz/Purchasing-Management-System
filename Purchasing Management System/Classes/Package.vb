@@ -1,4 +1,5 @@
 ﻿Public Class Package
+    Inherits DatabaseItem
     Private pDate As Date
     Private cour As String
     Private pType As String
@@ -7,7 +8,8 @@
     Private recieve As String
     Private trknum As String
     Private pID As Integer
-    Public tbl As DataTable
+
+#Region "Database Functions"
 
     Public Sub SubmitTrackingEntry()
         Dim com As New DatabaseAccess
@@ -48,29 +50,30 @@
         End With
     End Sub
 
-    Public Function GetPackageData() As DataTable
+    Public Sub GetPackageData()
         Dim com As New DatabaseAccess
-        Dim table As New DataTable
         With com
             .InitiateADOProcedure("qryPackageLog")
             .AddParameter("varDate", PackageDate)
             .Execute(DatabaseAccess.ReturnType.ExecuteReader)
-            table = .ReturnResults()
+            Data = .ReturnResults()
         End With
-        Return table
-    End Function
+    End Sub
 
-    Public Sub GeneratePackageReport()
+    Public Sub GenerateDailyPackageReport()
         Dim com As New DatabaseAccess
         With com
             .InitiateADOProcedure("qryPackageLogReportByDate")
             .AddParameter("varDate", PackageDate)
             .AddParameter("varCat", RecipientType)
             .Execute(DatabaseAccess.ReturnType.ExecuteReader)
-            tbl = .ReturnResults
+            Data = .ReturnResults
         End With
     End Sub
 
+#End Region
+
+#Region "Getters/Setters"
     Public Property PackageDate As Date
         Get
             Return pDate
@@ -142,4 +145,5 @@
             pID = value
         End Set
     End Property
+#End Region
 End Class

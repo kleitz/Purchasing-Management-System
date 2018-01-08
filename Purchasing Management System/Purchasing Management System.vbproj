@@ -142,10 +142,16 @@
     <Compile Include="Forms\FrmDepartments.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmReports.Designer.vb">
-      <DependentUpon>FrmReports.vb</DependentUpon>
+    <Compile Include="Forms\FrmPackagesReports.Designer.vb">
+      <DependentUpon>FrmPackagesReports.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmReports.vb">
+    <Compile Include="Forms\FrmPackagesReports.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPoReports.Designer.vb">
+      <DependentUpon>FrmPoReports.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPoReports.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FrmReqInventory.Designer.vb">
@@ -191,6 +197,12 @@
       <DependentUpon>FrmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\FrmVendors.Designer.vb">
+      <DependentUpon>FrmVendors.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmVendors.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Modules\MiscellaneousFunctions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -221,8 +233,11 @@
     <EmbeddedResource Include="Forms\FrmDepartments.resx">
       <DependentUpon>FrmDepartments.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmReports.resx">
-      <DependentUpon>FrmReports.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmPackagesReports.resx">
+      <DependentUpon>FrmPackagesReports.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPoReports.resx">
+      <DependentUpon>FrmPoReports.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmReqInventory.resx">
       <DependentUpon>FrmReqInventory.vb</DependentUpon>
@@ -244,6 +259,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmSearchItems.resx">
       <DependentUpon>FrmSearchItems.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmVendors.resx">
+      <DependentUpon>FrmVendors.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>

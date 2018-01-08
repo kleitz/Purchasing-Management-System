@@ -1,4 +1,4 @@
-﻿Public Class Deparmtnets
+﻿Public Class Departments
     Inherits DatabaseItem
     Private datID As Integer
     Private deptName As String
@@ -12,7 +12,8 @@
     Public Sub GetData()
         Dim com As New DatabaseAccess
         With com
-            .InitiateADOCommand("qryDepartments")
+            .InitiateADOProcedure("qryDepartments")
+            .Execute(DatabaseAccess.ReturnType.ExecuteReader)
             Data = .ReturnResults
         End With
         Me.BuildIndex(1)

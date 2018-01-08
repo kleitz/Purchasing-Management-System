@@ -1,24 +1,23 @@
 ﻿Imports Microsoft.Office.Interop
 Public Class FrmReqInventory
-    Private Items As InventoryItem
-    Private Depts As FrmDepartments
+    Private Items As New InventoryItem
+    Private Depts As New Departments
 
     Private Sub FrmReqInventory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Items = New InventoryItem
-        With Items
-            For Each row As DataRow In Items.Data.Rows
-                With Me.comboDept.Items
-                    .Add(row(0).ToString)
-                End With
-            Next
-        End With
+        Items.GetData(InventoryItem.SearchMethod.AllItems)
+        Depts.GetData()
+
+        For Each row As DataRow In Depts.Data.Rows
+            With Me.comboDept.Items
+                .Add(row(1).ToString)
+            End With
+        Next
     End Sub
 
     Private Sub TxtScanner_TextChanged(sender As Object, e As EventArgs) Handles txtScanner.TextChanged
         Dim f As Double
         With Items
-            .SearchItems(Me.txtScanner.Text)
-            If .Exists = True Then
+            If .SearchItems(Me.txtScanner.Text) Then
                 txtScanner.Text = ""
                 Dim row As Int32
                 If dgvRequisition.Rows.Count > 0 Then
@@ -52,7 +51,7 @@ Public Class FrmReqInventory
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        Dim dept As New Deparmtnets
+        Dim dept As New Departments
         'For Each row As DataGridViewRow In dgvRequisition.Rows
         'Items.VendorItemNumber = row.Cells(0).Value
         ' Items.Quantity = row.Cells(3).Value

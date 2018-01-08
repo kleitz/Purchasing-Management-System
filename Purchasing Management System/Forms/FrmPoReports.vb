@@ -16,4 +16,8 @@
         yr = CInt(Me.txtSumYear.Text)
         po.GenerateSummaryPurchaseOrderReport(mt, yr)
     End Sub
+
+    Private Sub FrmPOReports_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

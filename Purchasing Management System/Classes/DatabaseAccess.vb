@@ -79,7 +79,6 @@ Public Class DatabaseAccess
                 .ErrorNumber = Err.Number
                 .ErrorDescription = Err.Description
                 .ExceptionMessage = ex.ToString
-                .Timestamp = Now()
                 .LogError()
             End With
         End Try
