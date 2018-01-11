@@ -47,6 +47,7 @@
                     .InsertDepartment()
                 End If
             End With
+            LoadData()
         Catch ex As Exception
             Dim handleError As New ErrorHandler
             With handleError

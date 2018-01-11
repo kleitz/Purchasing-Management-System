@@ -41,7 +41,10 @@
     End Sub
 
     Private Sub PackagesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles PackagesToolStripMenuItem1.Click
-        MsgBox("Coming soon!")
+        If Application.OpenForms().OfType(Of FrmPackagesReports).Any <> True Then
+            Dim frmPkgReport As New FrmPackagesReports With {.MdiParent = Me}
+            frmPkgReport.Show()
+        End If
     End Sub
 
     Private Sub EnterRequisitionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EnterRequisitionToolStripMenuItem.Click

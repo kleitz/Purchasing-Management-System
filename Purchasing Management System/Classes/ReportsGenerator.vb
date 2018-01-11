@@ -12,14 +12,14 @@ Public Class ReportsGenerator
         source = New DatabaseItem
     End Sub
 
-    Public Sub GenerateReport(Optional modifier As Integer = 0, Optional title As String = "")
+    Public Sub GenerateReport(Optional modifier As Integer = 3, Optional title As String = "")
         Try
             Dim i As Integer
             i = modifier
             With xlws
                 For x As Integer = 1 To source.Data.Rows.Count - 1
                     For y As Integer = 0 To source.Data.Columns.Count - 1
-                        .Cells(i, y + 1) = source.Data.Rows(x).Item(y)
+                        .Cells(i, y + 1) = CStr(source.Data.Rows(x).Item(y))
                     Next
                     i += 1
                 Next

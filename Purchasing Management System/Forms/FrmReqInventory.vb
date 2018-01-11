@@ -1,13 +1,19 @@
 ﻿Imports Microsoft.Office.Interop
 Public Class FrmReqInventory
     Private Items As New InventoryItem
-    Private Depts As New Departments
+    Private req As Requisitions
+    Private reqItem As RequisitionItems
 
     Private Sub FrmReqInventory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        req = New Requisitions
+        Me.cmdDelete.Enabled = False
+        Me.cmdSave.Enabled = False
+        Me.cmdReloadItems.Visible = False
+        Me.cmdReloadItems.Enabled = False
+        Me.dgvRequisition.Enabled = False
         Items.GetData(InventoryItem.SearchMethod.AllItems)
-        Depts.GetData()
-
-        For Each row As DataRow In Depts.Data.Rows
+        req.Department.GetData()
+        For Each row As DataRow In req.Department.Data.Rows
             With Me.comboDept.Items
                 .Add(row(1).ToString)
             End With
@@ -38,6 +44,7 @@ Public Class FrmReqInventory
                 dgvRequisition.Rows(row).Cells(3).Value = 1
                 dgvRequisition.Rows(row).Cells(4).Value = .Quantity
                 dgvRequisition.Rows(row).Cells(5).Value = CType(dgvRequisition.Rows(row).Cells(3).Value, Integer) * .Price
+                dgvRequisition.Rows(row).Cells(6).Value = .BarcodeID
                 dgvRequisition.AutoSizeColumnsMode() = DataGridViewAutoSizeColumnMode.AllCells
             End If
         End With
@@ -51,30 +58,24 @@ Public Class FrmReqInventory
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        Dim dept As New Departments
-        'For Each row As DataGridViewRow In dgvRequisition.Rows
-        'Items.VendorItemNumber = row.Cells(0).Value
-        ' Items.Quantity = row.Cells(3).Value
-        'Items.UpdateQuantity()
-        'Next
+
+        req.SubmitRequisition()
 
         Dim xlApp As New Excel.Application
         Dim xlWb As Excel.Workbook = xlApp.Workbooks.Open(Application.StartupPath & "\Resources\Requisition.xlsx")
         Dim xlWs As Excel.Worksheet = xlWb.Worksheets(1)
         Dim i As Integer = 0
         Dim total As Double = 0
-        dept.GetData()
-        dept.SearchDepartments(Me.comboDept.Text)
-        'If rw Is Nothing Then
-        'MsgBox("Please select a valid department then try again.")
-        'Else
 
         With xlWs
             .Cells(3, 2) = "Date: " & DateTime.Today.ToString("d") & DateTime.Today.DayOfWeek.ToString()
-            .Cells(4, 2) = dept.DepartmentName
-            .Cells(5, 2) = dept.DivisionID
-            .Cells(6, 2) = dept.DepartmentID
+            .Cells(4, 2) = req.Department.DepartmentName
+            .Cells(5, 2) = req.Department.DivisionID
+            .Cells(6, 2) = req.Department.DepartmentID
             For Each row As DataGridViewRow In dgvRequisition.Rows
+                '    reqItem.BarcodeID = row.Cells(6).Value
+                '   reqItem.Quantity = row.Cells(3).Value
+                '   reqItem.SubmitRequisitionItem()
                 .Cells(i + 9, 1) = row.Cells(0).Value
                 .Cells(i + 9, 2) = row.Cells(1).Value
                 .Cells(i + 9, 3) = row.Cells(2).Value
@@ -90,6 +91,25 @@ Public Class FrmReqInventory
         End With
 
         xlApp.Visible = True
-        ' End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        req.Department.DepartmentName = Me.comboDept.Text
+        If req.Department.SearchDepartments(Me.comboDept.Text) Then
+            req.RequisitionDate = Now()
+            Me.cmdDelete.Enabled = True
+            Me.cmdSave.Enabled = True
+            Me.dgvRequisition.Enabled = True
+            Me.Button1.Enabled = False
+            Me.Button1.Visible = False
+            Me.comboDept.Enabled = False
+            Me.cmdReloadItems.Visible = True
+            Me.cmdReloadItems.Enabled = True
+            Me.txtScanner.Focus()
+        End If
+    End Sub
+
+    Private Sub cmdReloadItems_Click(sender As Object, e As EventArgs) Handles cmdReloadItems.Click
+        Items.BuildItemsIndex(InventoryItem.SearchMethod.AllItems)
     End Sub
 End Class

@@ -1,10 +1,9 @@
 ﻿Public Class FrmSearchItems
     Dim item As InventoryItem
-    Dim vend As Vendors
+
     Private Sub FrmSearchItems_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        vend = New Vendors
         item = New InventoryItem
-        For Each row As DataRow In vend.Data.Rows
+        For Each row As DataRow In item.vend.Data.Rows
             With Me.comboVendor.Items
                 .Add(row(1).ToString)
             End With
@@ -24,6 +23,7 @@
             .Add("Stationary Supplies")
             .Add("F&B Disposables")
             .Add("Paper Disposables")
+            .Add("Printing/Stationary")
             .Add("Candy")
             .Add("Ammenities")
             .Add("Fuel")
@@ -60,32 +60,33 @@
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
+        item.vend.SearchVendors(Me.comboVendor.Text)
+
+        Dim exist As Boolean
+        exist = item.SearchItems(Me.txtSWSIN.Text)
+
         With item
+            .BarcodeID = Me.txtBarcode.Text
             .VendorItemNumber = Me.txtVendIN.Text
-            If .SearchItems(.VendorItemNumber) = True Then
-                .BarcodeID = Me.txtBarcode.Text
-                .AgilisysItemNumber = CDbl(Me.txtSWSIN.Text)
-                .Price = Me.txtPrice.Text
-                .Category = Me.comboCat.Text
-                .Packaging = Me.txtPkg.Text
-                .VendorName = Me.comboVendor.Text
-                .UnitMeasure = Me.comboUM.Text
-                .Description = Me.txtDesc.Text
-                .Quantity = Me.txtQnty.Text
-                .UpdateAgilisysItem()
-            Else
-                .AgilisysItemNumber = CDbl(Me.txtSWSIN.Text)
-                .Price = Me.txtPrice.Text
-                .Category = Me.comboCat.Text
-                .Packaging = Me.txtPkg.Text
-                .VendorName = Me.comboVendor.Text
-                .UnitMeasure = Me.comboUM.Text
-                .Description = Me.txtDesc.Text
-                .Quantity = Me.txtQnty.Text
-                .SubmitAgilisysItem()
-            End If
-            Me.ReturnItems(InventoryItem.SearchMethod.VendorID)
+            .AgilisysItemNumber = CDbl(Me.txtSWSIN.Text)
+            .Description = Me.txtDesc.Text
+            .Packaging = Me.txtPkg.Text
+            .Price = Me.txtPrice.Text
+            .UnitMeasure = Me.comboUM.Text
+            .Category = Me.comboCat.Text
+            .Quantity = Me.txtQnty.Text
         End With
+        If item.vend.VendorID > 0 Then
+            If exist Then
+                item.UpdateAgilisysItem()
+            Else
+                item.SubmitAgilisysItem()
+            End If
+            Me.ReturnItems(InventoryItem.SearchMethod.Description)
+        Else
+            MsgBox("Invalid vendor. Please add vendor from the Vendors module under Settings/Database Settings.")
+            Exit Sub
+        End If
     End Sub
 
 
@@ -115,4 +116,6 @@
         Me.txtQnty.Text = ""
         ReturnItems(InventoryItem.SearchMethod.AllItems)
     End Sub
+
+
 End Class

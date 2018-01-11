@@ -24,7 +24,7 @@ Partial Class FrmPackagesReports
     Private Sub InitializeComponent()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtMonth = New System.Windows.Forms.TextBox()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.dtpPackageDate = New System.Windows.Forms.DateTimePicker()
         Me.cmdGenerateReport = New System.Windows.Forms.Button()
         Me.cmdGenSumReport = New System.Windows.Forms.Button()
         Me.txtYear = New System.Windows.Forms.TextBox()
@@ -52,12 +52,12 @@ Partial Class FrmPackagesReports
         Me.txtMonth.Size = New System.Drawing.Size(100, 20)
         Me.txtMonth.TabIndex = 1
         '
-        'DateTimePicker1
+        'dtpPackageDate
         '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(6, 19)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(200, 20)
-        Me.DateTimePicker1.TabIndex = 2
+        Me.dtpPackageDate.Location = New System.Drawing.Point(6, 19)
+        Me.dtpPackageDate.Name = "dtpPackageDate"
+        Me.dtpPackageDate.Size = New System.Drawing.Size(200, 20)
+        Me.dtpPackageDate.TabIndex = 2
         '
         'cmdGenerateReport
         '
@@ -109,7 +109,7 @@ Partial Class FrmPackagesReports
         '
         'GroupBox2
         '
-        Me.GroupBox2.Controls.Add(Me.DateTimePicker1)
+        Me.GroupBox2.Controls.Add(Me.dtpPackageDate)
         Me.GroupBox2.Controls.Add(Me.cmdGenSumReport)
         Me.GroupBox2.Location = New System.Drawing.Point(12, 167)
         Me.GroupBox2.Name = "GroupBox2"
@@ -131,7 +131,7 @@ Partial Class FrmPackagesReports
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(250, 319)
+        Me.ClientSize = New System.Drawing.Size(241, 319)
         Me.Controls.Add(Me.cmdClose)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -146,7 +146,7 @@ Partial Class FrmPackagesReports
 
     Friend WithEvents Label1 As Label
     Friend WithEvents txtMonth As TextBox
-    Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents dtpPackageDate As DateTimePicker
     Friend WithEvents cmdGenerateReport As Button
     Friend WithEvents cmdGenSumReport As Button
     Friend WithEvents txtYear As TextBox
