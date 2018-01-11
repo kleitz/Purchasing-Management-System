@@ -52,15 +52,23 @@
 
     Public Sub GetPackageData()
         Dim com As New DatabaseAccess
+        Dim str As String
         With com
             .InitiateADOProcedure("qryPackageLog")
             .AddParameter("varDate", PackageDate)
             .Execute(DatabaseAccess.ReturnType.ExecuteReader)
             Data = .ReturnResults()
         End With
+
+        For Each row As DataRow In Data.Rows
+            str = row.Item(5).ToString
+            row.Item(5) = "'" & str & "'"
+        Next
+
     End Sub
 
     Public Sub GenerateDailyPackageReport()
+        Dim str As String
         Dim com As New DatabaseAccess
         With com
             .InitiateADOProcedure("qryPackageLogReportByDate")
@@ -68,6 +76,33 @@
             .AddParameter("varCat", RecipientType)
             .Execute(DatabaseAccess.ReturnType.ExecuteReader)
             Data = .ReturnResults
+            For Each row As DataRow In Data.Rows
+                str = row.Item(3).ToString
+                row.Item(3) = "'" & str & "'"
+            Next
+        End With
+    End Sub
+
+    Public Sub GenerateMonthlyPackageReport(pMonth As Integer, pYear As Integer)
+        Dim report As New ReportsGenerator
+        Dim com As New DatabaseAccess
+        Dim str As String
+        With com
+            .InitiateADOProcedure("qryPackageReportByMonth")
+            .AddParameter("vMonth", pMonth)
+            .AddParameter("vYear", pYear)
+            .Execute(DatabaseAccess.ReturnType.ExecuteReader)
+            Data = .ReturnResults
+        End With
+
+        For Each row As DataRow In Data.Rows
+            str = row.Item(6).ToString
+            row.Item(6) = "'" & str & "'"
+        Next
+
+        With report
+            .source = Me
+            .GenerateReport(3, "Package Log Month: " & pMonth & ", Year: " & pYear)
         End With
     End Sub
 

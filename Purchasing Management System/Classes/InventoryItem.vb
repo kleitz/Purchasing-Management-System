@@ -1,7 +1,6 @@
 ﻿Public Class InventoryItem
     Inherits DatabaseItem
-    Private vendName As String
-    Private vendID As Integer
+    Public vend As Vendors
     Private vendItemNo As String
     Private barid As String
     Private AgilisysIN As Double
@@ -19,6 +18,7 @@
     End Enum
 
     Public Sub New()
+        vend = New Vendors
         BuildItemsIndex(SearchMethod.AllItems)
     End Sub
 
@@ -47,7 +47,7 @@
 
     Public Sub BuildItemsIndex(SearchBy As SearchMethod)
         GetData(SearchBy)
-        BuildIndex(3)
+        BuildIndex(4)
     End Sub
 
     Public Function SearchItems(myKey As String) As Boolean
@@ -58,7 +58,7 @@
                 .AgilisysItemNumber = CDbl(rw.Item(4))
                 .Description = CType(rw.Item(5), String)
                 .Price = CType(rw.Item(9), String)
-                .VendorName = CType(rw.Item(1), String)
+                vend.VendorName = CType(rw.Item(1), String)
                 .Packaging = CType(rw.Item(6), String)
                 .UnitMeasure = CType(rw.Item(7), String)
                 .Quantity = CType(rw.Item(8), Integer)
@@ -87,7 +87,7 @@
         Dim com As New DatabaseAccess
         With com
             .InitiateADOProcedure("spInsertVendorItem")
-            .AddParameter("varVendor", VendorName)
+            .AddParameter("varVendorID", vend.VendorID)
             .AddParameter("varVendorItemNumber", VendorItemNumber)
             .AddParameter("varBarcode", BarcodeID)
             .AddParameter("varAgilisysItemNo", AgilisysItemNumber)
@@ -127,6 +127,20 @@
 #End Region
 
 #Region "Getters/Setters"
+    Public Property VendorName As String
+        Get
+            Return vend.VendorName
+        End Get
+        Set(value As String)
+            vend.VendorName = value
+            If (vend.SearchVendors(vend.VendorName)) = False Then
+                vend.VendorID = -1
+            End If
+        End Set
+
+    End Property
+
+
     Public Property VendorItemNumber As String
         Get
             Return vendItemNo
@@ -190,20 +204,6 @@
         End Set
     End Property
 
-    Public Property VendorName As String
-        Get
-            Return vendName
-        End Get
-        Set(value As String)
-            vendName = value
-            Dim com As New DatabaseAccess
-            With com
-                .InitiateADOCommand("SELECT VendorID FROM tVendors WHERE VendorName = '" & value & "';")
-                .Execute(DatabaseAccess.ReturnType.ExecuteReader)
-                vendID = .ReturnValue
-            End With
-        End Set
-    End Property
 
     Public Property Exists As Boolean
         Get

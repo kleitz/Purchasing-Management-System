@@ -29,8 +29,8 @@
         Dim rw As DataRow = SearchIndex(myKey)
         If rw IsNot Nothing Then
             With Me
+                On Error Resume Next
                 .VendorID = CType(rw.Item(0), Integer)
-                .VendorName = CType(rw.Item(1), String)
                 .AccountNumber = CType(rw.Item(2), String)
                 .PhoneNumber = CType(rw.Item(3), String)
                 .Email = CType(rw.Item(4), String)
@@ -38,6 +38,7 @@
                 .City = CType(rw.Item(6), String)
                 .State = CType(rw.Item(7), String)
                 .ZipCode = CType(rw.Item(8), String)
+                On Error GoTo 0
             End With
             Return True
         Else
@@ -77,6 +78,7 @@
             .AddParameter("varCity", City)
             .AddParameter("varState", State)
             .AddParameter("varZip", ZipCode)
+            .AddParameter("varID", VendorID)
             .Execute(DatabaseAccess.ReturnType.ExecuteNonQuery)
             MsgBox("Vendor: " & Me.VendorName & " has been updated.")
         End With

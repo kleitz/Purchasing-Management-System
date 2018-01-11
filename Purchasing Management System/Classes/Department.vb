@@ -39,7 +39,6 @@
         Dim com As New DatabaseAccess
         With com
             .InitiateADOProcedure("spInsertDepartment")
-            .AddParameter("varDatID", DatabaseID)
             .AddParameter("varName", DepartmentName)
             .AddParameter("varDivID", DivisionID)
             .AddParameter("varDeptID", DepartmentID)

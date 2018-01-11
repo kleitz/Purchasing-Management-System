@@ -35,10 +35,13 @@ Partial Class FrmReqInventory
         Me.qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.qtyRemain = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.price = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.BarcodeID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.lblSubTotal = New System.Windows.Forms.Label()
         Me.lblTax = New System.Windows.Forms.Label()
         Me.lblTotal = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.cmdReloadItems = New System.Windows.Forms.Button()
         CType(Me.dgvRequisition, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -78,7 +81,7 @@ Partial Class FrmReqInventory
         '
         'cmdDelete
         '
-        Me.cmdDelete.Location = New System.Drawing.Point(12, 65)
+        Me.cmdDelete.Location = New System.Drawing.Point(12, 77)
         Me.cmdDelete.Name = "cmdDelete"
         Me.cmdDelete.Size = New System.Drawing.Size(127, 32)
         Me.cmdDelete.TabIndex = 4
@@ -87,7 +90,7 @@ Partial Class FrmReqInventory
         '
         'cmdSave
         '
-        Me.cmdSave.Location = New System.Drawing.Point(146, 65)
+        Me.cmdSave.Location = New System.Drawing.Point(146, 77)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(127, 32)
         Me.cmdSave.TabIndex = 5
@@ -97,12 +100,13 @@ Partial Class FrmReqInventory
         'dgvRequisition
         '
         Me.dgvRequisition.AllowUserToAddRows = False
-        Me.dgvRequisition.AllowUserToDeleteRows = False
+        Me.dgvRequisition.AllowUserToOrderColumns = True
         Me.dgvRequisition.BackgroundColor = System.Drawing.SystemColors.Window
         Me.dgvRequisition.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvRequisition.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.VendIN, Me.agilIN, Me.Desc, Me.qty, Me.qtyRemain, Me.price})
+        Me.dgvRequisition.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.VendIN, Me.agilIN, Me.Desc, Me.qty, Me.qtyRemain, Me.price, Me.BarcodeID})
         Me.dgvRequisition.GridColor = System.Drawing.SystemColors.AppWorkspace
         Me.dgvRequisition.Location = New System.Drawing.Point(279, 12)
+        Me.dgvRequisition.MultiSelect = False
         Me.dgvRequisition.Name = "dgvRequisition"
         Me.dgvRequisition.Size = New System.Drawing.Size(864, 376)
         Me.dgvRequisition.TabIndex = 6
@@ -136,6 +140,11 @@ Partial Class FrmReqInventory
         '
         Me.price.HeaderText = "System Price"
         Me.price.Name = "price"
+        '
+        'BarcodeID
+        '
+        Me.BarcodeID.HeaderText = "Barcode ID"
+        Me.BarcodeID.Name = "BarcodeID"
         '
         'lblSubTotal
         '
@@ -175,11 +184,31 @@ Partial Class FrmReqInventory
         Me.GroupBox1.TabIndex = 10
         Me.GroupBox1.TabStop = False
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(12, 153)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(259, 32)
+        Me.Button1.TabIndex = 11
+        Me.Button1.Text = "New Requisition"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'cmdReloadItems
+        '
+        Me.cmdReloadItems.Location = New System.Drawing.Point(12, 115)
+        Me.cmdReloadItems.Name = "cmdReloadItems"
+        Me.cmdReloadItems.Size = New System.Drawing.Size(259, 32)
+        Me.cmdReloadItems.TabIndex = 12
+        Me.cmdReloadItems.Text = "Reload Items Data"
+        Me.cmdReloadItems.UseVisualStyleBackColor = True
+        '
         'FrmReqInventory
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1155, 401)
+        Me.Controls.Add(Me.cmdReloadItems)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.dgvRequisition)
         Me.Controls.Add(Me.cmdSave)
@@ -205,14 +234,17 @@ Partial Class FrmReqInventory
     Friend WithEvents cmdDelete As Button
     Friend WithEvents cmdSave As Button
     Friend WithEvents dgvRequisition As DataGridView
+    Friend WithEvents lblSubTotal As Label
+    Friend WithEvents lblTax As Label
+    Friend WithEvents lblTotal As Label
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents Button1 As Button
     Friend WithEvents VendIN As DataGridViewTextBoxColumn
     Friend WithEvents agilIN As DataGridViewTextBoxColumn
     Friend WithEvents Desc As DataGridViewTextBoxColumn
     Friend WithEvents qty As DataGridViewTextBoxColumn
     Friend WithEvents qtyRemain As DataGridViewTextBoxColumn
     Friend WithEvents price As DataGridViewTextBoxColumn
-    Friend WithEvents lblSubTotal As Label
-    Friend WithEvents lblTax As Label
-    Friend WithEvents lblTotal As Label
-    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents BarcodeID As DataGridViewTextBoxColumn
+    Friend WithEvents cmdReloadItems As Button
 End Class
